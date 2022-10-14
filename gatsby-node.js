@@ -44,6 +44,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     posts.forEach((post, index) => {
       const previousPostId = index === 0 ? null : posts[index - 1].id
       const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+      console.log(post)
+      const deferThisPage = index > 0 // enable DSG for the latter two pages 
 
       createPage({
         path: post.fields.slug,
@@ -53,6 +55,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           previousPostId,
           nextPostId,
         },
+        defer: deferThisPage
       })
     })
   }
