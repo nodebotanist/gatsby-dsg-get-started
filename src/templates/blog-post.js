@@ -71,22 +71,9 @@ export const Head = ({ data: { markdownRemark: post } }) => {
 }
 
 export async function config() {
-  // Optionally use GraphQL here
-  const {data} = graphql`
-  {
-    allMarkdownRemark(sort: {order: DESC, fields: frontmatter___date}) {
-      nodes {
-        fields {
-          slug
-        }
-      }
-    }
-  }`
-  return ({ params }) => {
-    const slugs = data.allMarkdownRemark.nodes.map(s => s.fields.slug)
-    console.log("slugs: ", slugs, params)
+  return () => {
     return {
-      defer: slugs.indexOf(params.slug) > 0,
+      defer: true
     }
   }
 }
