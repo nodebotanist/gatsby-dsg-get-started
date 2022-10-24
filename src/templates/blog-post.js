@@ -83,7 +83,8 @@ export async function config() {
     }
   }`
   return ({ params }) => {
-    const slugs = data.allMarkdownRemark.nodes.map(s => s.slug)
+    const slugs = data.allMarkdownRemark.nodes.map(s => s.fields.slug)
+    console.log("slugs: ", slugs, params)
     return {
       defer: slugs.indexOf(params.slug) > 0,
     }
