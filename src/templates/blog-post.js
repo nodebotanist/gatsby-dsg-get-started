@@ -70,6 +70,27 @@ export const Head = ({ data: { markdownRemark: post } }) => {
   )
 }
 
+export async function config() {
+  // Optionally use GraphQL here
+  const {data} = graphql`
+  {
+    allMarkdownRemark(sort: {order: DESC, fields: frontmatter___date}) {
+      nodes {
+        fields {
+          slug
+        }
+      }
+    }
+  }`
+  return ({ params }) => {
+    const slugs = data.allMarkdownRemark.nodes.map(s => s.slug)
+    return {
+      defer: slugs.indexOf(params.slug) > 0,
+    }
+  }
+}
+
+
 export default BlogPostTemplate
 
 export const pageQuery = graphql`
